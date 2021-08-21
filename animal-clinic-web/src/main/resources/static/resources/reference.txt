@@ -1,0 +1,3 @@
+//maven run plugin from command line
+project location/>mvn groupID:artifactID:version:goal
+mvn ro.isdc.wro4j:wro4j-maven-plugin:1.8.0:run

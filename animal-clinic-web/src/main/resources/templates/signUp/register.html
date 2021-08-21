@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Sign-up Form</title>
+
+<script type="text/javascript" src="../resources/js/petclinic.js"></script>
+<link rel="stylesheet" th:href="@{/resources/css/petclinic.css}" />
+
+<!--     <meta name="_csrf" content="${_csrf.token}"/>
+    default header name is X-CSRF-TOKEN
+    <meta name="_csrf_header" content="${_csrf.headerName}"/> -->
+
+<script type='text/javascript'>
+	/* $(document).ready(function() {
+	 
+	    var max_fields      = 10; //maximum input boxes allowed
+	    var wrapper         = $(".addressFields"); //Fields wrapper
+	    var add_button      = $(".addAddressButton"); //Add button ID
+
+	    var x = 1; //initlal text box count
+	    $(add_button).click(function(e){ //on add input button click
+	        e.preventDefault();
+	        if(x < max_fields){ //max input box allowed
+	            x++; //text box increment
+	            $(wrapper).append('<div><label>Address #1</label><input type="text" th:field="*{userInfo.address[__${itemStat.index}__].addressLine1}" /><label>Address #2</label><input type="text" th:field="*{userInfo.address[__${itemStat.index}__].addressLine2}" /><label>City</label><input type="text" th:field="*{userInfo.address[__${itemStat.index}__].city}" /><label>Zipcode</label><input type="text" th:field="*{userInfo.address[__${itemStat.index}__].zipCode}" /><label>Country</label><input type="text" th:field="*{userInfo.address[__${itemStat.index}__].country}" /><label>Primary</label><input type="checkbox" name="Primary" th:field="*{userInfo.address[__${itemStat.index}__].primary}" /><label>Mailing</label><input type="checkbox" name="Mailing" th:field="*{userInfo.address[__${itemStat.index}__].mailing}" /></div>'); //add input box
+	        }
+	    });
+
+	    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	        e.preventDefault(); $(this).parent('div').remove(); x--;
+	    })
+	}); */
+
+	/* 	$(function () {
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 $(document).ajaxSend(function(e, xhr, options) {
+	 xhr.setRequestHeader(header, token);
+	 });
+	 }); */
+
+	$(document).ready(
+			function() {
+
+				$(".addAddressButton").on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							$('#user-register-form').attr('action',
+									"/signUp/addAddress").submit();
+						});
+
+				$(".addContactButton").on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							$('#user-register-form').attr('action',
+									"/signUp/addContact").submit();
+						});
+
+				$(".save").on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							$('#user-register-form').attr('action',
+									"/signUp/save").submit();
+						});
+
+			});
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="container xd-container">
+			<h2>User Registration</h2>
+			<form class="form-horizontal" id="user-register-form"
+				th:object="${user}" method="post">
+				<table>
+					<tr>
+						<td><label>First Name</label></td>
+						<td><input type="text" value="*{userInfo.name.firstName}"
+							class="" th:field="*{userInfo.name.firstName}" /></td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.name.firstName')}"
+							th:errors="*{userInfo.name.firstName}"></span></td>
+					</tr>
+					<tr>
+						<td><label>Last Name</label></td>
+						<td><input type="text" value="*{userInfo.name.lastName}"
+							class="" th:field="*{userInfo.name.lastName}" /></td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.name.lastName')}"
+							th:errors="*{userInfo.name.lastName}"></span></td>
+					</tr>
+					<tr>
+						<td><label>Date of Birth</label></td>
+						<td><input type="date" value="*{userInfo.dateOfBirth}"
+							class="" th:field="*{userInfo.dateOfBirth}" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+
+					<tr>
+						<td><label>UserName</label></td>
+						<td><input type="text" value="*{userName}"
+							th:field="*{userName}" /> <span
+							th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Email</label></td>
+						<td><input type="text" value="*{email}" class=""
+							th:field="*{email}" /> <span
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Password</label></td>
+						<td><input type="password" value="" th:field="*{password}" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+				<table th:each="address, itemStat: *{userInfo.address}">
+					<tr>
+						<td><label>Address #1</label></td>
+						<td><input type="text"
+							value="*{userInfo.address[__${itemStat.index}__].addressLine1}"
+							th:field="*{userInfo.address[__${itemStat.index}__].addressLine1}" />
+						</td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.address[__${itemStat.index}__].addressLine1')}"
+							th:errors="*{userInfo.address[__${itemStat.index}__].addressLine1}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Address #2</label></td>
+						<td><input type="text"
+							value="*{userInfo.address[__${itemStat.index}__].addressLine2}"
+							th:field="*{userInfo.address[__${itemStat.index}__].addressLine2}" />
+						</td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.address[__${itemStat.index}__].addressLine2')}"
+							th:errors="*{userInfo.address[__${itemStat.index}__].addressLine2}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>City</label></td>
+						<td><input type="text"
+							value="*{userInfo.address[__${itemStat.index}__].city}"
+							th:field="*{userInfo.address[__${itemStat.index}__].city}" /></td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.address[__${itemStat.index}__].city')}"
+							th:errors="*{userInfo.address[__${itemStat.index}__].city}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Zipcode</label></td>
+						<td><input type="text"
+							value="*{userInfo.address[__${itemStat.index}__].zipCode}"
+							th:field="*{userInfo.address[__${itemStat.index}__].zipCode}" />
+						</td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.address[__${itemStat.index}__].zipCode')}"
+							th:errors="*{userInfo.address[__${itemStat.index}__].zipCode}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Country</label></td>
+						<td><input type="text"
+							value="*{userInfo.address[__${itemStat.index}__].country}"
+							th:field="*{userInfo.address[__${itemStat.index}__].country}" />
+						</td>
+						<td><span
+							th:if="${#fields.hasErrors('userInfo.address[__${itemStat.index}__].country')}"
+							th:errors="*{userInfo.address[__${itemStat.index}__].country}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Primary</label></td>
+						<td><input type="checkbox" name="Primary"
+							th:field="*{userInfo.address[__${itemStat.index}__].primary}" />
+						<td><label>Mailing</label></td>
+						<td><input type="checkbox" name="Mailing"
+							th:field="*{userInfo.address[__${itemStat.index}__].mailing}" />
+						</td>
+				</table>
+				<div>
+					<input type="button" value="Add Address" class="addAddressButton" />
+				</div>
+
+				<table th:each="phone, itemStat: *{userInfo.contact.phone}">
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label>Phone</label></td>
+						<td><input type="text"
+							value="*{userInfo.contact.phone[__${itemStat.index}__].number}"
+							th:field="*{userInfo.contact.phone[__${itemStat.index}__].number}"
+							th:value="${phone.number}" /></td>
+						<td><label>Phone Type</label></td>
+						<td><select class=" "
+							th:field="*{userInfo.contact.phone[__${itemStat.index}__].type}">
+								<option
+									th:each="phoneType : ${T(com.spring5app.animalclinic.model.common.PhoneType).values()}"
+									th:value="${phoneType}" th:text="${phoneType.name}"></option>
+						</select></td>
+						<td><span
+							th:if="${#fields.hasErrors('{userInfo.contact.phone[__${itemStat.index}__].number}')}"
+							th:errors="*{userInfo.contact.phone[__${itemStat.index}__].number}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+				<input type="button" value="Add Contact" class="addContactButton" />
+				<div>
+					<input type="button" name="save" value="Save" class="save" />
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a sample Petstore server.  You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
+  version: 1.0.0
+  title: Animal Clinic
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: localhost:8080
+basePath: /animalclinic/api/v1
+tags:
+- name: pet
+  description: Everything about your Pets owners
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: store
+  description: Access to Petstore owners
+- name: user
+  description: Operations about user
+  externalDocs:
+    description: Find out more about our store
+    url: http://localhost:8080
+schemes:
+- http
+paths:
+  /owners:
+    get:
+      tags:
+      - owner
+      summary: List all owners
+      description: List all owners
+      operationId: getOwners
+      produces:
+      - application/json
+      - application/xml
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Owner'
+    post:
+      tags:
+      - owner
+      summary: Create owner
+      description: Create a new pet owner.
+      operationId: createOwner
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Created owner object
+        required: true
+        schema:
+          $ref: '#/definitions/Owner'
+      responses:
+        "200":
+          description: operation response
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /owners/{Id}:
+    get:
+      tags:
+      - owner
+      summary: Get owner by owner Id
+      operationId: getOwnerById
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: Id
+        in: path
+        description: The name that needs to be fetched. Use user1 for testing.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Owner'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Owner not found
+    delete:
+      tags:
+      - owner
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: Id
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        type: string
+      responses:
+        "200":
+          description: sucessful operation
+        "400":
+          description: Invalid owner ID supplied
+        "404":
+          description: User not found
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    flow: implicit
+    scopes:
+      write:pets: modify pets in your account
+      read:pets: read your pets
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Owner:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        $ref: '#/definitions/Name'
+      address:
+        $ref: '#/definitions/Address'
+      contact:
+        $ref: '#/definitions/Contact'
+    xml:
+      name: Owner
+  Contact:
+    type: object
+    properties:
+      email:
+        type: string
+      Phone:
+        type: string
+    xml:
+      name: Contact
+  Address:
+    type: object
+    properties:
+      address1:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      zipCode:
+        type: integer
+        format: int64
+      country:
+        type: string
+    xml:
+      name: Contact
+  Name:
+    type: object
+    required:
+    - firstName
+    - lastName
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      middleName:
+        type: string
+    xml:
+      name: Name
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io

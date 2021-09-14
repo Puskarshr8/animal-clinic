@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Deploy') { 
             steps { 
-               echo 'This is a minimal pipeline.' 
+               echo 'This is a minimal pipeline. This is minimal pipeline' 
             }
         }
     }
